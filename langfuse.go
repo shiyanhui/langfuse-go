@@ -3,6 +3,7 @@ package langfuse
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	"github.com/google/uuid"
@@ -32,7 +33,7 @@ func New(ctx context.Context) *Langfuse {
 			func(ctx context.Context, events []model.IngestionEvent) {
 				err := ingest(ctx, client, events)
 				if err != nil {
-					fmt.Println(err)
+					slog.Error("langfuse failed to ingest events", "error", err)
 				}
 			},
 		),
