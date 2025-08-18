@@ -22,8 +22,8 @@ type Langfuse struct {
 	observer      *observer.Observer[model.IngestionEvent]
 }
 
-func New(ctx context.Context) *Langfuse {
-	client := api.New()
+func New(ctx context.Context, host, publicKey, secretKey string) *Langfuse {
+	client := api.New(host, publicKey, secretKey)
 
 	l := &Langfuse{
 		flushInterval: defaultFlushInterval,

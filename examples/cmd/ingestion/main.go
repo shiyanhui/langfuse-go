@@ -2,13 +2,18 @@ package main
 
 import (
 	"context"
+	"os"
 
 	"github.com/henomis/langfuse-go"
 	"github.com/henomis/langfuse-go/model"
 )
 
 func main() {
-	l := langfuse.New(context.Background())
+	host := os.Getenv("LANGFUSE_HOST")
+	publicKey := os.Getenv("LANGFUSE_PUBLIC_KEY")
+	secretKey := os.Getenv("LANGFUSE_SECRET_KEY")
+
+	l := langfuse.New(context.Background(), host, publicKey, secretKey)
 
 	trace, err := l.Trace(&model.Trace{Name: "test-trace"})
 	if err != nil {

@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/base64"
 	"net/http"
-	"os"
 
 	"github.com/henomis/restclientgo"
 )
@@ -17,16 +16,12 @@ type Client struct {
 	restClient *restclientgo.RestClient
 }
 
-func New() *Client {
-	langfuseHost := os.Getenv("LANGFUSE_HOST")
-	if langfuseHost == "" {
-		langfuseHost = langfuseDefaultEndpoint
+func New(host, publicKey, secretKey string) *Client {
+	if host == "" {
+		host = langfuseDefaultEndpoint
 	}
 
-	publicKey := os.Getenv("LANGFUSE_PUBLIC_KEY")
-	secretKey := os.Getenv("LANGFUSE_SECRET_KEY")
-
-	restClient := restclientgo.New(langfuseHost)
+	restClient := restclientgo.New(host)
 	restClient.SetRequestModifier(func(req *http.Request) *http.Request {
 		req.Header.Set("Authorization", basicAuth(publicKey, secretKey))
 		return req
